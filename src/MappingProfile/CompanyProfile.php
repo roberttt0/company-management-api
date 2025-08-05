@@ -3,6 +3,7 @@
 namespace App\MappingProfile;
 
 use App\DTO\CompanyDTO;
+use App\DTO\OutputCompanyDTO;
 use App\Entity\Company;
 use AutoMapperPlus\AutoMapperPlusBundle\AutoMapperConfiguratorInterface;
 use AutoMapperPlus\Configuration\AutoMapperConfigInterface;
@@ -17,26 +18,35 @@ class CompanyProfile implements AutoMapperConfiguratorInterface
         ->forMember('cui', function(CompanyDTO $dto) {
             return $dto->cui;
         })
-        ->forMember('dateCreated', function(CompanyDTO $dto) {
-            return $dto->dateCreated;
+        ->forMember('yearCreated', function(CompanyDTO $dto) {
+            return $dto->yearCreated;
         })
         ->forMember('parentId', function (CompanyDTO $dto) {
             return $dto->parentId;
         })
         ;
 
-        $config->registerMapping(Company::class, CompanyDTO::class)
+        $config->registerMapping(Company::class, OutputCompanyDTO::class)
+            ->forMember('id', function(Company $company) {
+                return $company->getId();
+            })
             ->forMember('name', function(Company $company) {
                 return $company->getName();
             })
             ->forMember('cui', function(Company $company) {
                 return $company->getCui();
             })
-            ->forMember('dateCreated', function(Company $company) {
-                return $company->getDateCreated();
+            ->forMember('yearCreated', function(Company $company) {
+                return $company->getYearCreated();
             })
             ->forMember('parentId', function (Company $company) {
                 return $company->getParentId();
+            })
+            ->forMember('dateCreated', function(Company $company) {
+                return $company->getCreatedAt()->format('c');
+            })
+            ->forMember('dateUpdated', function (Company $company) {
+                return $company->getUpdatedAt()->format('c');
             })
             ;
     }

@@ -2,13 +2,16 @@
 
 namespace App\DTO;
 
-class CompanyDTO
+class OutputCompanyDTO
 {
     public function __construct(
+        public int $id,
         public string $name,
         public string    $cui,
         public int    $yearCreated,
-        public ?int   $parentId = null
+        public ?int   $parentId = null,
+        public ?string $dateCreated,
+        public ?string $dateUpdated
     )
     {}
 }

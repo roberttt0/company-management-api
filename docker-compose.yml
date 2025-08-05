@@ -13,6 +13,7 @@ services:
   # PHP SERVICE
   php:
     container_name: php
+    user: "${UID}:${GID}"
     build:
       context: ./docker/php
       dockerfile: Dockerfile

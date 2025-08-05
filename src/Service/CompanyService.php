@@ -3,7 +3,8 @@
 namespace App\Service;
 
 use App\DTO\CompanyDTO;
-use App\DTO\WorkPointDTO;
+use App\DTO\OutputCompanyDTO;
+use App\DTO\OutputWorkPointDTO;
 use App\Entity\Company;
 use AutoMapperPlus\AutoMapperInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,10 +22,10 @@ class CompanyService
     public function showCompany(): array
     {
         $companies = $this->manager->getRepository(Company::class)->findAll();
-        return $this->mapper->mapMultiple($companies, CompanyDTO::class);
+        return $this->mapper->mapMultiple($companies, OutputCompanyDTO::class);
     }
 
-    public function addCompany(CompanyDTO $dto): CompanyDTO
+    public function addCompany(CompanyDTO $dto): OutputCompanyDTO
     {
         $companies = $this->mapper->map($dto, Company::class);
 
@@ -39,25 +40,28 @@ class CompanyService
         $this->manager->flush();
 
 //        return $companies;
-        return $this->mapper->map($companies, CompanyDTO::class);
+        return $this->mapper->map($companies, OutputCompanyDTO::class);
     }
 
-    public function changeCompany(int $id, CompanyDTO $dto): CompanyDTO
+    public function changeCompany(int $id, CompanyDTO $dto): OutputCompanyDTO
     {
         $company = $this->manager->getRepository(Company::class)->find($id);
         if ($company === null) {
             throw new NotFoundHttpException("Compania nu a fost gasita!");
+        }
+        if ($dto->parentId != null && $this->manager->getRepository(Company::class)->find($dto->parentId) === null || $dto->parentId == $company->getId()) {
+            throw new NotFoundHttpException("Compania parinte este invalida!");
         }
         $company->setName($dto->name);
         $company->setCui($dto->cui);
-        $company->setDateCreated($dto->dateCreated);
+        $company->setYearCreated($dto->yearCreated);
         $company->setParentId($dto->parentId);
         $this->manager->persist($company);
         $this->manager->flush();
-        return $this->mapper->map($company, CompanyDTO::class);
+        return $this->mapper->map($company, OutputCompanyDTO::class);
     }
 
-    public function readCompany(int $id): CompanyDTO
+    public function readCompany(int $id): OutputCompanyDTO
     {
         $company = $this->manager->getRepository(Company::class)->find($id);
 
@@ -65,10 +69,10 @@ class CompanyService
             throw new NotFoundHttpException("Compania nu a fost gasita!");
         }
 
-        return $this->mapper->map($company, CompanyDTO::class);
+        return $this->mapper->map($company, OutputCompanyDTO::class);
     }
 
-    public function deleteCompany(int $id): void
+    public function deleteCompany(int $id): array
     {
         $company = $this->manager->getRepository(Company::class)->find($id);
         if ($company === null) {
@@ -76,6 +80,7 @@ class CompanyService
         }
         $this->manager->remove($company);
         $this->manager->flush();
+        return $this->showCompany();
     }
 
     public function showWorkPoints(int $id): array
@@ -86,7 +91,7 @@ class CompanyService
         }
         $workPoints = [];
         foreach ($company->getWorkPoints() as $item) {
-            $workPoints[] = $this->mapper->map($item, WorkPointDTO::class);
+            $workPoints[] = $this->mapper->map($item, OutputWorkPointDTO::class);
         }
         return $workPoints;
     }

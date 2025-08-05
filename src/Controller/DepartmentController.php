@@ -8,7 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use OpenApi\Attributes as OA;
 
+#[OA\Tag(name: "Department")]
 final class DepartmentController extends AbstractController
 {
     public function __construct(
@@ -16,18 +18,21 @@ final class DepartmentController extends AbstractController
     ) {}
 
     #[Route('/api/departments', name: 'show_departments', methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Show departments')]
     public function showDepartments() : Response {
         $department = $this->departmentService->showDepartments();
         return $this->json($department);
     }
 
     #[Route('/api/departments', name: 'add_department', methods: ['POST'])]
+    #[OA\Response(response: 200, description: 'Add a department')]
     public function addDepartment(#[MapRequestPayload] DepartmentDTO $dto) : Response {
         $department = $this->departmentService->addDepartment($dto);
         return $this->json($department);
     }
 
     #[Route('/api/departments/{id}', name: 'delete_department', requirements: ['id' => '\d+'] , methods: ['DELETE'])]
+    #[OA\Response(response: 200, description: 'Remove a department')]
     public function deleteDepartment(int $id) : Response {
         $department = $this->departmentService->deleteDepartment($id);
         return $this->json($department);
