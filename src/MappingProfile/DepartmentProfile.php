@@ -4,6 +4,7 @@ namespace App\MappingProfile;
 
 use App\DTO\DepartmentDTO;
 use App\DTO\OutputDepartmentDTO;
+use App\Entity\Company;
 use App\Entity\Department;
 use App\Entity\DepartmentInfo;
 use App\Entity\WorkPoint;
@@ -14,10 +15,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DepartmentProfile implements AutoMapperConfiguratorInterface
 {
-    public function __construct (
+    public function __construct(
         private EntityManagerInterface $manager
-    ) {}
-    public function configure(AutoMapperConfigInterface $config) : void {
+    )
+    {
+    }
+
+    public function configure(AutoMapperConfigInterface $config): void
+    {
         $config->registerMapping(DepartmentDTO::class, Department::class)
             ->forMember('status', function (DepartmentDTO $dto) {
                 return $dto->status;
@@ -29,23 +34,22 @@ class DepartmentProfile implements AutoMapperConfiguratorInterface
                 return $dto->email;
             })
             ->forMember('department', function (DepartmentDTO $dto) {
-                 $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($dto->department);
-                 if ($departmentInfo == null) {
-                     throw new NotFoundHttpException("Departamentul nu exista");
-                 }
-                 return $departmentInfo;
+                $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($dto->department);
+                if ($departmentInfo == null) {
+                    throw new NotFoundHttpException("Departamentul nu exista");
+                }
+                return $departmentInfo;
             })
             ->forMember('workPoint', function (DepartmentDTO $dto) {
                 $workPoint = $this->manager->getRepository(WorkPoint::class)->find($dto->workPoint);
-                if($workPoint == null) {
+                if ($workPoint == null) {
                     throw new NotFoundHttpException("Punctul de lucru nu exista");
                 }
                 return $workPoint;
-            })
-            ;
+            });
 
         $config->registerMapping(Department::class, OutputDepartmentDTO::class)
-            ->forMember('id', function(Department $department) {
+            ->forMember('id', function (Department $department) {
                 return $department->getId();
             })
             ->forMember('status', function (Department $department) {
@@ -63,6 +67,11 @@ class DepartmentProfile implements AutoMapperConfiguratorInterface
             ->forMember('workPoint', function (Department $departament) {
                 return $departament->getWorkPoint()->getId();
             })
-            ;
+            ->forMember('dateCreated', function (Department $company) {
+                return $company->getCreatedAt()->format('c');
+            })
+            ->forMember('dateUpdated', function (Department $company) {
+                return $company->getUpdatedAt()->format('c');
+            });
     }
 }

@@ -42,6 +42,12 @@ class CompanyProfile implements AutoMapperConfiguratorInterface
             ->forMember('parentId', function (Company $company) {
                 return $company->getParentId();
             })
+            ->forMember('dateCreated', function(Company $company) {
+                return $company->getCreatedAt()->format('c');
+            })
+            ->forMember('dateUpdated', function (Company $company) {
+                return $company->getUpdatedAt()->format('c');
+            })
             ;
     }
 }

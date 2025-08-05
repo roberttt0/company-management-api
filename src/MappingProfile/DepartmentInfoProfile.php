@@ -24,6 +24,12 @@ class DepartmentInfoProfile implements AutoMapperConfiguratorInterface
             ->forMember('name', function(DepartmentInfo $departmentInfo) {
                 return $departmentInfo->getName();
             })
+            ->forMember('dateCreated', function(DepartmentInfo $company) {
+                return $company->getCreatedAt()->format('c');
+            })
+            ->forMember('dateUpdated', function (DepartmentInfo $company) {
+                return $company->getUpdatedAt()->format('c');
+            })
             ;
     }
 }

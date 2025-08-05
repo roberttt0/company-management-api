@@ -10,7 +10,9 @@ class OutputDepartmentDTO
         public string $phoneNumber,
         public string $email,
         public int    $department,
-        public int    $workPoint
+        public int    $workPoint,
+        public ?string $dateCreated,
+        public ?string $dateUpdated
     )
     {
     }

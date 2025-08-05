@@ -12,7 +12,9 @@ class OutputWorkPointDTO
         public string $phoneNumber,
         public string $programStart,
         public string $programEnd,
-        public int    $company
+        public int    $company,
+        public ?string $dateCreated,
+        public ?string $dateUpdated
     )
     {
     }
