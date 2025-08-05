@@ -33,8 +33,8 @@ final class DepartmentInfoController extends AbstractController
         return $this->json($department);
     }
 
-    #[Route('/api/departments-info/{id}', name: 'show_department_info_all', requirements: ['id' => '\d+'], methods: ['GET'])]
-    #[OA\Response(response: 200, description: 'Show a department type')]
+    #[Route('/api/departments-info/{id}/departments', name: 'show_department_type_departments', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Show all departments of a department type')]
     public function showDepartmentType(int $id) : Response {
         $departments = $this->departmentInfoService->showDepartmentType($id);
         return $this->json($departments);
@@ -50,7 +50,7 @@ final class DepartmentInfoController extends AbstractController
     #[Route('/api/departments-info/{id}', name: 'delete_department_info', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     #[OA\Response(response: 200, description: 'Delete a department type')]
     function deleteDepartmentInfo(int $id) : Response {
-        $departmentInfo = $this->departmentInfoService->deleteDepartmenInfo($id);
+        $departmentInfo = $this->departmentInfoService->deleteDepartmentInfo($id);
         return $this->json($departmentInfo);
     }
 

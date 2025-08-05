@@ -47,9 +47,17 @@ final class CompanyController extends AbstractController
     #[Route('/api/companies/{id}', name: 'delete_company', requirements: ['id' => '\d+'], methods: ['DELETE']) ]
     #[OA\Response(response: 200, description: 'Delete a company')]
     public function deleteCompany(int $id) : Response {
-        $this->companyService->deleteCompany($id);
-        return $this->showCompanies();
+        $company = $this->companyService->deleteCompany($id);
+        return $this->json($company);
     }
+
+    #[Route('/api/companies/{id}/work-points', name: 'show_company_work_points', requirements: ['id' => '\d+'], methods: ['GET']) ]
+    #[OA\Response(response: 200, description: 'Show all work-points of a company')]
+    public function showCompanyWorkPoints(int $id): Response {
+        $workPoints = $this->companyService->showWorkPoints($id);
+        return $this->json($workPoints);
+    }
+
 
 
 }

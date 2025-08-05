@@ -2,8 +2,9 @@
 
 namespace App\Service;
 
-use App\DTO\DepartmentDTO;
 use App\DTO\DepartmentInfoDTO;
+use App\DTO\OutputDepartmentDTO;
+use App\DTO\OutputDepartmentInfoDTO;
 use App\Entity\DepartmentInfo;
 use AutoMapperPlus\AutoMapperInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,18 +23,18 @@ class DepartmentInfoService
         $info = [];
         $departments = $this->manager->getRepository(DepartmentInfo::class)->findAll();
         foreach ($departments as $department) {
-            $department = $this->mapper->map($department, DepartmentInfoDTO::class);
+            $department = $this->mapper->map($department, OutputDepartmentInfoDTO::class);
             $info[] = $department;
         }
         return $info;
     }
 
-    public function addDepartment(DepartmentInfoDTO $dto) : DepartmentInfoDTO {
+    public function addDepartment(DepartmentInfoDTO $dto) : OutputDepartmentInfoDTO {
         $department = $this->mapper->map($dto, DepartmentInfo::class);
         $this->manager->persist($department);
         $this->manager->flush();
 //        return $department;
-        return $this->mapper->map($department, DepartmentInfoDTO::class);
+        return $this->mapper->map($department, OutputDepartmentInfoDTO::class);
     }
 
     public function showDepartmentType(int $id) : array {
@@ -41,10 +42,10 @@ class DepartmentInfoService
         if ($departmentInfo === null) {
             throw new NotFoundHttpException("Departamentul nu exista!");
         }
-        return $this->mapper->mapMultiple($departmentInfo->getDepartmentsList(), DepartmentDTO::class);
+        return $this->mapper->mapMultiple($departmentInfo->getDepartmentsList(), OutputDepartmentDTO::class);
     }
 
-    public function changeDepartmentName(int $id, DepartmentInfoDTO $dto) : string {
+    public function changeDepartmentName(int $id, DepartmentInfoDTO $dto) : OutputDepartmentInfoDTO {
         $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($id);
         if ($departmentInfo === null) {
             throw new NotFoundHttpException("Departamentul nu exista!");
@@ -52,10 +53,10 @@ class DepartmentInfoService
         $departmentInfo->setName($dto->name);
         $this->manager->persist($departmentInfo);
         $this->manager->flush();
-        return $departmentInfo->getName();
+        return $this->mapper->map($departmentInfo, OutputDepartmentInfoDTO::class);
     }
 
-    public function deleteDepartmenInfo(int $id) : array {
+    public function deleteDepartmentInfo(int $id) : array {
         $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($id);
         if ($departmentInfo === null) {
             throw new NotFoundHttpException("Departamentul nu exista!");

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\DepartmentDTO;
+use App\DTO\OutputDepartmentDTO;
 use App\Entity\Department;
 use AutoMapperPlus\AutoMapperInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,18 +18,18 @@ class DepartmentService
 
     public function showDepartments() : array {
         $departments = $this->manager->getRepository(Department::class)->findAll();
-        return $this->mapper->mapMultiple($departments, DepartmentDTO::class);
+        return $this->mapper->mapMultiple($departments, OutputDepartmentDTO::class);
     }
 
-    public function addDepartment(DepartmentDTO $dto) : DepartmentDTO {
+    public function addDepartment(DepartmentDTO $dto) : OutputDepartmentDTO {
         $department = $this->mapper->map($dto, Department::class);
         $this->manager->persist($department);
         $this->manager->flush();
-        return $dto;
+        return $this->mapper->map($department, OutputDepartmentDTO::class);
     }
 
     public function deleteDepartment(int $id) : array {
-        $department = $this->manager->find(Department::class, $id);
+        $department = $this->manager->getRepository(Department::class)->find($id);
         if ($department == null) {
             throw new NotFoundHttpException("Departamentul nu exista");
         }

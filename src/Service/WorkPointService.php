@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\DTO\DepartmentDTO;
+use App\DTO\OutputDepartmentDTO;
+use App\DTO\OutputWorkPointDTO;
 use App\DTO\WorkPointDTO;
 use App\Entity\WorkPoint;
 use AutoMapperPlus\AutoMapperInterface;
@@ -18,18 +20,18 @@ class WorkPointService
 
     public function showWorkPoints() : array {
         $points = $this->manager->getRepository(WorkPoint::class)->findAll();
-        $points = $this->mapper->mapMultiple($points, WorkPointDTO::class);
+        $points = $this->mapper->mapMultiple($points, OutputWorkPointDTO::class);
         return $points;
     }
 
-    public function addWorkPoint(WorkPointDTO $dto) : WorkPointDTO {
+    public function addWorkPoint(WorkPointDTO $dto) : OutputWorkPointDTO {
         $workPoint = $this->mapper->map($dto, WorkPoint::class);
         $this->manager->persist($workPoint);
         $this->manager->flush();
-        return $dto;
+        return $this->mapper->map($workPoint, OutputWorkPointDTO::class);
     }
 
-    public function updateWorkPoint(int $id, WorkPointDTO $dto) : WorkPointDTO {
+    public function updateWorkPoint(int $id, WorkPointDTO $dto) : OutputWorkPointDTO {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
         $dto = $this->mapper->map($dto, WorkPoint::class);
         $workPoint->setAddress($dto->getAddress());
@@ -43,16 +45,15 @@ class WorkPointService
         $this->manager->persist($workPoint);
         $this->manager->flush();
 
-//        return $workPoint;
-        return $this->mapper->map($workPoint, WorkPointDTO::class);
+        return $this->mapper->map($workPoint, OutputWorkPointDTO::class);
     }
 
-    public function showWorkPoint(int $id) : WorkPointDTO {
+    public function showWorkPoint(int $id) : OutputWorkPointDTO {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
         if ($workPoint === null) {
             throw new NotFoundHttpException("Punctul de lucru nu exista!");
         }
-        $workPoint = $this->mapper->map($workPoint, WorkPointDTO::class);
+        $workPoint = $this->mapper->map($workPoint, OutputWorkPointDTO::class);
         return $workPoint;
     }
 
@@ -69,6 +70,6 @@ class WorkPointService
         if ($workPoint === null) {
             throw new NotFoundHttpException("Punctul de lucru nu exista!");
         }
-        return $this->mapper->mapMultiple($workPoint->getDepartments(), DepartmentDTO::class);
+        return $this->mapper->mapMultiple($workPoint->getDepartments(), OutputDepartmentDTO::class);
     }
 }

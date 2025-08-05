@@ -3,6 +3,7 @@
 namespace App\MappingProfile;
 
 use App\DTO\DepartmentDTO;
+use App\DTO\OutputDepartmentDTO;
 use App\Entity\Department;
 use App\Entity\DepartmentInfo;
 use App\Entity\WorkPoint;
@@ -43,7 +44,10 @@ class DepartmentProfile implements AutoMapperConfiguratorInterface
             })
             ;
 
-        $config->registerMapping(Department::class, DepartmentDTO::class)
+        $config->registerMapping(Department::class, OutputDepartmentDTO::class)
+            ->forMember('id', function(Department $department) {
+                return $department->getId();
+            })
             ->forMember('status', function (Department $department) {
                 return $department->getStatus();
             })

@@ -3,6 +3,7 @@
 namespace App\MappingProfile;
 
 use App\DTO\CompanyDTO;
+use App\DTO\OutputCompanyDTO;
 use App\Entity\Company;
 use AutoMapperPlus\AutoMapperPlusBundle\AutoMapperConfiguratorInterface;
 use AutoMapperPlus\Configuration\AutoMapperConfigInterface;
@@ -25,7 +26,10 @@ class CompanyProfile implements AutoMapperConfiguratorInterface
         })
         ;
 
-        $config->registerMapping(Company::class, CompanyDTO::class)
+        $config->registerMapping(Company::class, OutputCompanyDTO::class)
+            ->forMember('id', function(Company $company) {
+                return $company->getId();
+            })
             ->forMember('name', function(Company $company) {
                 return $company->getName();
             })

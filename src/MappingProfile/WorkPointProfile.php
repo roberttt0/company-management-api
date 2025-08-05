@@ -2,6 +2,7 @@
 
 namespace App\MappingProfile;
 
+use App\DTO\OutputWorkPointDTO;
 use App\DTO\WorkPointDTO;
 use App\Entity\Company;
 use App\Entity\WorkPoint;
@@ -40,7 +41,10 @@ class WorkPointProfile implements AutoMapperConfiguratorInterface
                 return $company;
             });
 
-        $config->registerMapping(WorkPoint::class, WorkPointDTO::class)
+        $config->registerMapping(WorkPoint::class, OutputWorkPointDTO::class)
+            ->forMember('id', function(WorkPoint $workPoint) {
+                return $workPoint->getId();
+            })
             ->forMember('address', function(WorkPoint $workPoint) {
                 return $workPoint->getAddress();
             })

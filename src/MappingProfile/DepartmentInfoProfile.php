@@ -3,6 +3,7 @@
 namespace App\MappingProfile;
 
 use App\DTO\DepartmentInfoDTO;
+use App\DTO\OutputDepartmentInfoDTO;
 use App\Entity\DepartmentInfo;
 use AutoMapperPlus\AutoMapperPlusBundle\AutoMapperConfiguratorInterface;
 use AutoMapperPlus\Configuration\AutoMapperConfigInterface;
@@ -16,7 +17,10 @@ class DepartmentInfoProfile implements AutoMapperConfiguratorInterface
             })
             ;
 
-        $config->registerMapping(DepartmentInfo::class, DepartmentInfoDTO::class)
+        $config->registerMapping(DepartmentInfo::class, OutputDepartmentInfoDTO::class)
+            ->forMember('id', function(DepartmentInfo $departmentInfo) {
+                return $departmentInfo->getId();
+            })
             ->forMember('name', function(DepartmentInfo $departmentInfo) {
                 return $departmentInfo->getName();
             })
