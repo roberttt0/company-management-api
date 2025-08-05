@@ -37,13 +37,14 @@ class WorkPoint
 
     #[MaxDepth(1)]
     #[ORM\ManyToOne(inversedBy: 'workPoints')]
+//    #[ORM\ManyToOne(inversedBy: 'company')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
 
     /**
      * @var Collection<int, Department>
      */
-    #[ORM\OneToMany(targetEntity: Department::class, mappedBy: 'workPoints', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Department::class, mappedBy: 'workPoint', orphanRemoval: true)]
     private Collection $departments;
 
     public function __construct()

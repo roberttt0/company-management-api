@@ -15,19 +15,19 @@ final class DepartmentController extends AbstractController
         private DepartmentService $departmentService
     ) {}
 
-    #[Route('/departments', name: 'show_departments', methods: ['GET'])]
+    #[Route('/api/departments', name: 'show_departments', methods: ['GET'])]
     public function showDepartments() : Response {
         $department = $this->departmentService->showDepartments();
         return $this->json($department);
     }
 
-    #[Route('/departments', name: 'add_department', methods: ['POST'])]
+    #[Route('/api/departments', name: 'add_department', methods: ['POST'])]
     public function addDepartment(#[MapRequestPayload] DepartmentDTO $dto) : Response {
         $department = $this->departmentService->addDepartment($dto);
         return $this->json($department);
     }
 
-    #[Route('/departments/{id}', name: 'delete_department', requirements: ['id' => '\d+'] , methods: ['DELETE'])]
+    #[Route('/api/departments/{id}', name: 'delete_department', requirements: ['id' => '\d+'] , methods: ['DELETE'])]
     public function deleteDepartment(int $id) : Response {
         $department = $this->departmentService->deleteDepartment($id);
         return $this->json($department);

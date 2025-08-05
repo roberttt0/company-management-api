@@ -22,16 +22,18 @@ class DepartmentInfoService
         $info = [];
         $departments = $this->manager->getRepository(DepartmentInfo::class)->findAll();
         foreach ($departments as $department) {
-            $info[] = $department->getName();
+            $department = $this->mapper->map($department, DepartmentInfoDTO::class);
+            $info[] = $department;
         }
         return $info;
     }
 
-    public function addDepartment(DepartmentInfoDTO $dto) : DepartmentInfo {
+    public function addDepartment(DepartmentInfoDTO $dto) : DepartmentInfoDTO {
         $department = $this->mapper->map($dto, DepartmentInfo::class);
         $this->manager->persist($department);
         $this->manager->flush();
-        return $department;
+//        return $department;
+        return $this->mapper->map($department, DepartmentInfoDTO::class);
     }
 
     public function showDepartmentType(int $id) : array {
@@ -51,5 +53,16 @@ class DepartmentInfoService
         $this->manager->persist($departmentInfo);
         $this->manager->flush();
         return $departmentInfo->getName();
+    }
+
+    public function deleteDepartmenInfo(int $id) : array {
+        $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($id);
+        if ($departmentInfo === null) {
+            throw new NotFoundHttpException("Departamentul nu exista!");
+        }
+        $this->manager->remove($departmentInfo);
+        $this->manager->flush();
+
+        return $this->showDepartments();
     }
 }

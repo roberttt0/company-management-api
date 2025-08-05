@@ -15,5 +15,11 @@ class DepartmentInfoProfile implements AutoMapperConfiguratorInterface
                 return $dto->name;
             })
             ;
+
+        $config->registerMapping(DepartmentInfo::class, DepartmentInfoDTO::class)
+            ->forMember('name', function(DepartmentInfo $departmentInfo) {
+                return $departmentInfo->getName();
+            })
+            ;
     }
 }
