@@ -24,7 +24,7 @@ class CompanyService
         return $this->mapper->mapMultiple($companies, CompanyDTO::class);
     }
 
-    public function addCompany(CompanyDTO $dto): Company
+    public function addCompany(CompanyDTO $dto): CompanyDTO
     {
         $companies = $this->mapper->map($dto, Company::class);
 
@@ -38,16 +38,20 @@ class CompanyService
         $this->manager->persist($companies);
         $this->manager->flush();
 
-        return $companies;
+//        return $companies;
+        return $this->mapper->map($companies, CompanyDTO::class);
     }
 
-    public function changeName(int $id, string $name): CompanyDTO
+    public function changeCompany(int $id, CompanyDTO $dto): CompanyDTO
     {
         $company = $this->manager->getRepository(Company::class)->find($id);
         if ($company === null) {
             throw new NotFoundHttpException("Compania nu a fost gasita!");
         }
-        $company->setName($name);
+        $company->setName($dto->name);
+        $company->setCui($dto->cui);
+        $company->setDateCreated($dto->dateCreated);
+        $company->setParentId($dto->parentId);
         $this->manager->persist($company);
         $this->manager->flush();
         return $this->mapper->map($company, CompanyDTO::class);

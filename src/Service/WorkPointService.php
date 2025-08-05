@@ -29,21 +29,22 @@ class WorkPointService
         return $dto;
     }
 
-    public function updateWorkPoint(int $id, WorkPointDTO $dto) : WorkPoint {
+    public function updateWorkPoint(int $id, WorkPointDTO $dto) : WorkPointDTO {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
         $dto = $this->mapper->map($dto, WorkPoint::class);
-        $workPoint->setAddress($dto->address);
-        $workPoint->setCounty($dto->county);
-        $workPoint->setType($dto->type);
-        $workPoint->setPhoneNumber($dto->phoneNumber);
-        $workPoint->setProgramStart($dto->programStart);
-        $workPoint->setProgramEnd($dto->programEnd);
-        $workPoint->setIdCompanie($workPoint->getIdCompanie());
+        $workPoint->setAddress($dto->getAddress());
+        $workPoint->setCounty($dto->getCounty());
+        $workPoint->setType($dto->getType());
+        $workPoint->setPhoneNumber($dto->getPhoneNumber());
+        $workPoint->setProgramStart($dto->getProgramStart());
+        $workPoint->setProgramEnd($dto->getProgramEnd());
+        $workPoint->setCompany($dto->getCompany());
 
         $this->manager->persist($workPoint);
         $this->manager->flush();
 
-        return $workPoint;
+//        return $workPoint;
+        return $this->mapper->map($workPoint, WorkPointDTO::class);
     }
 
     public function showWorkPoint(int $id) : WorkPointDTO {
