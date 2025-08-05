@@ -8,7 +8,7 @@ class OutputCompanyDTO
         public int $id,
         public string $name,
         public string    $cui,
-        public int    $dateCreated,
+        public int    $yearCreated,
         public ?int   $parentId = null
     )
     {}

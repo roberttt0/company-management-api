@@ -18,8 +18,8 @@ class CompanyProfile implements AutoMapperConfiguratorInterface
         ->forMember('cui', function(CompanyDTO $dto) {
             return $dto->cui;
         })
-        ->forMember('dateCreated', function(CompanyDTO $dto) {
-            return $dto->dateCreated;
+        ->forMember('yearCreated', function(CompanyDTO $dto) {
+            return $dto->yearCreated;
         })
         ->forMember('parentId', function (CompanyDTO $dto) {
             return $dto->parentId;
@@ -36,8 +36,8 @@ class CompanyProfile implements AutoMapperConfiguratorInterface
             ->forMember('cui', function(Company $company) {
                 return $company->getCui();
             })
-            ->forMember('dateCreated', function(Company $company) {
-                return $company->getDateCreated();
+            ->forMember('yearCreated', function(Company $company) {
+                return $company->getYearCreated();
             })
             ->forMember('parentId', function (Company $company) {
                 return $company->getParentId();

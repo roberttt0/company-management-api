@@ -49,9 +49,12 @@ class CompanyService
         if ($company === null) {
             throw new NotFoundHttpException("Compania nu a fost gasita!");
         }
+        if ($dto->parentId != null && $this->manager->getRepository(Company::class)->find($dto->parentId) === null || $dto->parentId == $company->getId()) {
+            throw new NotFoundHttpException("Compania parinte este invalida!");
+        }
         $company->setName($dto->name);
         $company->setCui($dto->cui);
-        $company->setDateCreated($dto->dateCreated);
+        $company->setYearCreated($dto->yearCreated);
         $company->setParentId($dto->parentId);
         $this->manager->persist($company);
         $this->manager->flush();

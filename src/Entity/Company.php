@@ -7,11 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 class Company
 {
+    use TimestampableEntity;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,7 +26,7 @@ class Company
     private ?string $cui = null;
 
     #[ORM\Column]
-    private ?int $dateCreated = null;
+    private ?int $yearCreated = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $parentId = null;
@@ -70,14 +72,14 @@ class Company
         return $this;
     }
 
-    public function getDateCreated(): ?int
+    public function getYearCreated(): ?int
     {
-        return $this->dateCreated;
+        return $this->yearCreated;
     }
 
-    public function setDateCreated(int $dateCreated): static
+    public function setYearCreated(int $yearCreated): static
     {
-        $this->dateCreated = $dateCreated;
+        $this->yearCreated = $yearCreated;
 
         return $this;
     }

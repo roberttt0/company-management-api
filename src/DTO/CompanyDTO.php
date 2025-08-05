@@ -7,7 +7,7 @@ class CompanyDTO
     public function __construct(
         public string $name,
         public string    $cui,
-        public int    $dateCreated,
+        public int    $yearCreated,
         public ?int   $parentId = null
     )
     {}
