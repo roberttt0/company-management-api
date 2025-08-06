@@ -40,4 +40,12 @@ class EmployeeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByJobId(int $jobId) : array {
+        return $this->createQueryBuilder('e')
+            ->where ('e.job = :jobId')
+            ->setParameter('jobId', $jobId)
+            ->getQuery()
+            ->getResult();
+    }
 }

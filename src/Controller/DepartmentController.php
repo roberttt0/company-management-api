@@ -38,4 +38,18 @@ final class DepartmentController extends AbstractController
         return $this->json($department);
     }
 
+    #[Route('/api/departments/{id}/employees', name: 'get_all_employees_of_department', requirements: ['id' => '\d+'] , methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Find all employees of a department')]
+    public function findEmployeesByDepartmentId(int $id) : Response {
+        $jobs = $this->departmentService->findEmployeesByDepartmentId($id);
+        return $this->json($jobs);
+    }
+
+    #[Route('/api/departments/{id}/jobs', name: 'get_all_jobs_of_department', requirements: ['id' => '\d+'] , methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Find all jobs of a department')]
+    public function getAllJobsOfDepartment(int $id) : Response {
+        $jobs = $this->departmentService->getAllJobsOfDepartment($id);
+        return $this->json($jobs);
+    }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\JobDTO;
+use App\DTO\OutputEmployeeDTO;
 use App\DTO\OutputJobDTO;
 use App\Entity\Job;
 use AutoMapperPlus\AutoMapperInterface;
@@ -59,5 +60,14 @@ class JobService
         $this->manager->flush();
 
         return $this->showJobs();
+    }
+
+    public function showAllEmployeesOfJob(int $id) : array {
+        $job = $this->manager->getRepository(Job::class)->find($id);
+        if ($job === null) {
+            throw new NotFoundHttpException("Job with id $id not found");
+        }
+//        return $job->getEmployees();
+        return $this->mapper->mapMultiple($job->getEmployees(), OutputEmployeeDTO::class);
     }
 }

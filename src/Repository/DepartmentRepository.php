@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Department;
+use App\Entity\Employee;
+use App\Entity\Job;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +42,34 @@ class DepartmentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    // Examples of query builder
+    public function findJobByDepartmentId(int $departmentId) : array {
+        return $this->createQueryBuilder('d')
+            ->innerJoin('d.jobs', 'j')
+            ->andWhere('d.id = :departmentId')
+            ->setParameter('departmentId', $departmentId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findTest(int $departmentId) : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('j.name', 'j.id', 'j.department')
+            ->addSelect('t')
+            ->from(Job::class, 'j')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findEmployeesByDepartmentId(int $departmentId) : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('e')
+            ->from(Employee::class, 'e')
+            ->join('e.department', 'd')
+            ->where('d.id = :departmentId')
+            ->setParameter('departmentId', $departmentId)
+            ->getQuery()
+            ->getResult();
+    }
 }

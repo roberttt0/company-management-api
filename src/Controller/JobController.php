@@ -44,4 +44,11 @@ final class JobController extends AbstractController
         $job = $this->service->deleteJob($id);
         return $this->json($job);
     }
+
+    #[Route('/api/jobs/{id}/employees', name: 'show_all_employees_of_job', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Show all employees of a job')]
+    public function getJobEmployees(int $id): Response {
+        $employees = $this->service->showAllEmployeesOfJob($id);
+        return $this->json($employees);
+    }
 }

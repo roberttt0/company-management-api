@@ -8,12 +8,14 @@ use App\Entity\Employee;
 use AutoMapperPlus\AutoMapperInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Repository\EmployeeRepository;
 
 class EmployeeService
 {
     public function __construct(
         private EntityManagerInterface $manager,
-        private AutoMapperInterface $mapper
+        private AutoMapperInterface $mapper,
+        private EmployeeRepository $repository
     ) {}
 
     public function getEmployees(): array {
@@ -57,5 +59,10 @@ class EmployeeService
         $this->manager->flush();
 
         return $this->getEmployees();
+    }
+
+    public function findJobById(int $id) : array {
+        $employees = $this->repository->findByJobId($id);
+        return $this->mapper->mapMultiple($employees, OutputEmployeeDTO::class);
     }
 }

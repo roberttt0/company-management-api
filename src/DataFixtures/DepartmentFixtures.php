@@ -15,7 +15,7 @@ class DepartmentFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $statuses = ['Activ', 'Inactiv'];
+        $statuses = ['activ', 'inactiv'];
 
         for ($i = 1; $i <= 15; $i++) {
             $department = new Department();

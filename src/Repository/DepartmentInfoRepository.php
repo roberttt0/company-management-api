@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\DepartmentInfo;
+use App\Entity\Employee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,17 @@ class DepartmentInfoRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findEmployeesByDepartmentInfoId(int $departmentInfoId) : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('e')
+            ->from(Employee::class, 'e')
+            ->join('e.job', 'j')
+            ->join('j.department', 'd')
+            ->join('d.department', 'di')
+            ->where('di.id = :departmentInfoId')
+            ->setParameter('departmentInfoId', $departmentInfoId)
+            ->getQuery()
+            ->getResult();
+    }
 }

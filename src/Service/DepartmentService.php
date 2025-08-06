@@ -4,16 +4,20 @@ namespace App\Service;
 
 use App\DTO\DepartmentDTO;
 use App\DTO\OutputDepartmentDTO;
+use App\DTO\OutputEmployeeDTO;
+use App\DTO\OutputJobDTO;
 use App\Entity\Department;
 use AutoMapperPlus\AutoMapperInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Repository\DepartmentRepository;
 
 class DepartmentService
 {
     public function __construct(
         private EntityManagerInterface $manager,
-        private AutoMapperInterface $mapper
+        private AutoMapperInterface $mapper,
+        private DepartmentRepository $repository
     ) {}
 
     public function showDepartments() : array {
@@ -36,6 +40,16 @@ class DepartmentService
         $this->manager->remove($department);
         $this->manager->flush();
         return $this->showDepartments();
+    }
+
+    public function getAllJobsOfDepartment(int $id) : array {
+        $department = $this->manager->getRepository(Department::class)->find($id);
+        return $this->mapper->mapMultiple($department->getJobs(), OutputJobDTO::class);
+    }
+
+    public function findEmployeesByDepartmentId(int $id) : array {
+        $employees = $this->repository->findEmployeesByDepartmentId($id);
+        return $this->mapper->mapMultiple($employees, OutputEmployeeDTO::class);
     }
 
 }

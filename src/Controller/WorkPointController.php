@@ -59,4 +59,11 @@ final class WorkPointController extends AbstractController
         return $this->json($departments);
     }
 
+    #[Route('/api/work-points/{id}/employees', name: 'show_work_point_employees', requirements: ['id' => '\d+'] ,methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Show all employees of a work point')]
+    public function findEmployeesByWorkPointId(int $id) : Response {
+        $employees = $this->workPointService->findEmployeesByWorkPointId($id);
+        return $this->json($employees);
+    }
+
 }

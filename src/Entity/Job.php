@@ -31,7 +31,7 @@ class Job
     /**
      * @var Collection<int, Employee>
      */
-    #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'functie', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'job', orphanRemoval: true)]
     private Collection $employees;
 
     public function __construct()

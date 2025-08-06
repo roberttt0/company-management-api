@@ -48,5 +48,19 @@ final class JobInformationController extends AbstractController
         return $this->json($jobInformation);
     }
 
+    #[Route('/api/jobs-information/{id}/jobs', name: 'get_jobs_of_job_type', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Get all jobs of a job type')]
+    public function getAllJobsOfJobType(int $id) : Response {
+        $jobs = $this->service->getAllJobsOfJobType($id);
+        return $this->json($jobs);
+    }
+
+    #[Route('/api/jobs-information/{id}/jobs', name: 'get_employees_of_job_type', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Get all jobs of a job type')]
+    public function getAllEmployeesOfJobType(int $id) : Response {
+        $employees = $this->service->getAllJobsOfJobType($id);
+        return $this->json($employees);
+    }
+
 
 }
