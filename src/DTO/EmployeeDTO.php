@@ -4,23 +4,22 @@ namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class WorkPointDTO
+class EmployeeDTO
 {
     public function __construct(
         #[Assert\NotBlank]
-        public string $address,
+        #[Assert\Length(min: 3, max: 20)]
+        public string $firstName,
         #[Assert\NotBlank]
-        public string $county,
+        #[Assert\Length(min: 3, max: 20)]
+        public string $lastName,
+        #[Assert\Email]
         #[Assert\NotBlank]
-        public string $type,
+        public string $email,
         #[Assert\NotBlank]
         public string $phoneNumber,
         #[Assert\NotBlank]
-        public string $programStart,
-        #[Assert\NotBlank]
-        public string $programEnd,
-        public int    $company
-    )
-    {
-    }
+        public string $hireDate,
+        public int $job
+    ) {}
 }

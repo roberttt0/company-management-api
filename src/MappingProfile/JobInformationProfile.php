@@ -25,10 +25,10 @@ class JobInformationProfile implements AutoMapperConfiguratorInterface
             ->forMember('name', function (JobInformation $jobInformation) {
                 return $jobInformation->getName();
             })
-            ->forMember('dateCreated', function (JobInformation $company) {
+            ->forMember('createdAt', function (JobInformation $company) {
                 return $company->getCreatedAt()->format('c');
             })
-            ->forMember('dateUpdated', function (JobInformation $company) {
+            ->forMember('updatedAt', function (JobInformation $company) {
                 return $company->getUpdatedAt()->format('c');
             });
     }

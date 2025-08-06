@@ -49,9 +49,16 @@ final class DepartmentInfoController extends AbstractController
 
     #[Route('/api/departments-info/{id}', name: 'delete_department_info', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     #[OA\Response(response: 200, description: 'Delete a department type')]
-    function deleteDepartmentInfo(int $id) : Response {
+    public function deleteDepartmentInfo(int $id) : Response {
         $departmentInfo = $this->departmentInfoService->deleteDepartmentInfo($id);
         return $this->json($departmentInfo);
+    }
+
+    #[Route('/api/departments-info/{id}/employees', name: 'find_employees_by_department_info', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Show all employees of a department type')]
+    public function findEmployeesByDepartmentInfoId(int $id) : Response {
+        $employees = $this->departmentInfoService->findEmployeesByDepartmentInfoId($id);
+        return $this->json($employees);
     }
 
 }
