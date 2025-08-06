@@ -7,6 +7,7 @@ use App\DTO\OutputJobInformationDTO;
 use App\Entity\JobInformation;
 use AutoMapperPlus\AutoMapperInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class JobInformationService
 {
@@ -40,6 +41,9 @@ class JobInformationService
 
     public function deleteJobInformation(int $id) : array {
         $jobInformation = $this->manager->getRepository(JobInformation::class)->find($id);
+        if ($jobInformation === null) {
+            throw new NotFoundHttpException("Job information does not exist!");
+        }
         $this->manager->remove($jobInformation);
         $this->manager->flush();
 

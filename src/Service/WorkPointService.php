@@ -59,6 +59,9 @@ class WorkPointService
 
     public function deleteWorkPoint(int $id) : array {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
+        if ($workPoint === null) {
+            throw new NotFoundHttpException("Work point does not exist!");
+        }
         $this->manager->remove($workPoint);
         $this->manager->flush();
 
