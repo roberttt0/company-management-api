@@ -2,22 +2,24 @@
 
 namespace App\Service;
 
-use AutoMapperPlus\AutoMapperInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\EmployeeRepository;
 
 class SearchService
 {
     public function __construct(
         private EmployeeRepository $employeeRepository
-    ) {}
+    )
+    {
+    }
 
-    public function findEmployeeByFirstName(string $firstName) : array {
+    public function findEmployeeByFirstName(string $firstName): array
+    {
         $employees = $this->employeeRepository->findEmployeeByFirstName($firstName);
         return $employees;
     }
 
-    public function findEmployeeByJob(string $jobName) : array {
+    public function findEmployeeByJob(string $jobName): array
+    {
         $employees = $this->employeeRepository->findEmployeeByJob($jobName);
         return $employees;
     }
