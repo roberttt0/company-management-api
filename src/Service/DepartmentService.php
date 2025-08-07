@@ -52,4 +52,20 @@ class DepartmentService
         return $this->mapper->mapMultiple($employees, OutputEmployeeDTO::class);
     }
 
+    public function modifyDepartment(int $id, DepartmentDTO $dto) : OutputDepartmentDTO {
+        $department = $this->manager->getRepository(Department::class)->find($id);
+        $dto = $this->mapper->map($dto, Department::class);
+        $department->setStatus($dto->getStatus());
+        $department->setPhoneNumber($dto->getPhoneNumber());
+        $department->setEmail($dto->getEmail());
+        $department->setDepartment($dto->getDepartment());
+        $department->setWorkPoint($dto->getWorkPoint());
+
+        $this->manager->persist($department);
+        $this->manager->flush();
+
+        return $this->mapper->map($department, OutputDepartmentDTO::class);
+
+    }
+
 }

@@ -52,4 +52,11 @@ final class DepartmentController extends AbstractController
         return $this->json($jobs);
     }
 
+    #[Route('/api/departments/{id}', name : 'modify_department', requirements: ['id' => '\d+'] , methods: ['PUT'])]
+    #[OA\Response(response: 200, description: 'Modify a department')]
+    public function modifyDepartment(int $id, #[MapRequestPayload] DepartmentDTO $dto) : Response {
+        $this->departmentService->modifyDepartment($id, $dto);
+        return $this->json($dto);
+    }
+
 }

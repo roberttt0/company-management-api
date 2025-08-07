@@ -15,7 +15,7 @@ final class CompanyController extends AbstractController
 {
 
     public function __construct(private readonly CompanyService $companyService) {}
-    #[Route('/api/companies', name: 'showCompanies', methods: ['GET'])]
+    #[Route('/api/companies', name: 'show_companies', methods: ['GET'])]
     #[OA\Response(response: 200, description: 'Show companies')]
     public function showCompanies(): Response
     {
@@ -30,7 +30,7 @@ final class CompanyController extends AbstractController
         return $this->json($company);
     }
 
-    #[Route('/api/companies/{id}', name: 'change_company', requirements: ['id' => '\d+'], methods: ['PATCH']) ]
+    #[Route('/api/companies/{id}', name: 'change_company', requirements: ['id' => '\d+'], methods: ['PUT']) ]
     #[OA\Response(response: 200, description: 'Modify a company')]
     public function changeCompany($id, #[MapRequestPayload] CompanyDTO $dto): Response {
         $company = $this->companyService->changeCompany($id, $dto);
