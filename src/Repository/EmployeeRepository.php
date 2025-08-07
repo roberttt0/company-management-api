@@ -48,4 +48,36 @@ class EmployeeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findEmployeeByFirstName(string $firstName) : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('e.firstName', 'e.lastName', 'di.name as Department', 'ji.name as Job', 'w.id as WorkPoint', 'c.name as Company')
+            ->from(Employee::class, 'e')
+            ->join('e.job', 'j')
+            ->join('j.jobType', 'ji')
+            ->join('j.department', 'd')
+            ->join('d.department', 'di')
+            ->join('d.workPoint', 'w')
+            ->join('w.company', 'c')
+            ->where('lower(e.firstName) = :firstName')
+            ->setParameter('firstName', $firstName)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findEmployeeByJob(string $jobName) : array {
+        return $this->getEntityManager()->createQueryBuilder()
+        ->select('e.firstName', 'e.lastName', 'di.name as Department', 'ji.name as Job', 'w.id as WorkPoint', 'c.name as Company')
+            ->from(Employee::class, 'e')
+            ->join('e.job', 'j')
+            ->join('j.jobType', 'ji')
+            ->join('j.department', 'd')
+            ->join('d.department', 'di')
+            ->join('d.workPoint', 'w')
+            ->join('w.company', 'c')
+            ->where('lower(ji.name) = :jobName')
+            ->setParameter('jobName', $jobName)
+            ->getQuery()
+            ->getResult();
+    }
 }
