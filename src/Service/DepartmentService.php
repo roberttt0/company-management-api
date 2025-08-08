@@ -35,7 +35,7 @@ class DepartmentService
     public function deleteDepartment(int $id) : array {
         $department = $this->manager->getRepository(Department::class)->find($id);
         if ($department == null) {
-            throw new NotFoundHttpException("Departamentul nu exista");
+            throw new NotFoundHttpException("Department not found");
         }
         $this->manager->remove($department);
         $this->manager->flush();

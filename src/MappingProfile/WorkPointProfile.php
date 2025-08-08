@@ -41,7 +41,7 @@ class WorkPointProfile implements AutoMapperConfiguratorInterface
             ->forMember('company', function (WorkPointDTO $dto) {
                 $company = $this->manager->getRepository(Company::class)->find($dto->company);
                 if ($company == null) {
-                    throw new NotFoundHttpException("Compania nu exista");
+                    throw new NotFoundHttpException("Company not found");
                 }
                 return $company;
             });

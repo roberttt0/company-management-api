@@ -32,7 +32,7 @@ class CompanyService
         if ($companies->getParentId() !== null) {
             $holdingCompany = $this->manager->getRepository(Company::class)->find($companies->getParentId());
             if ($holdingCompany == null) {
-                throw new NotFoundHttpException("Compania Holding nu exista!");
+                throw new NotFoundHttpException("Holding company not found");
             }
         }
 
@@ -47,10 +47,10 @@ class CompanyService
     {
         $company = $this->manager->getRepository(Company::class)->find($id);
         if ($company === null) {
-            throw new NotFoundHttpException("Compania nu a fost gasita!");
+            throw new NotFoundHttpException("Company not found");
         }
         if ($dto->parentId != null && $this->manager->getRepository(Company::class)->find($dto->parentId) === null || $dto->parentId == $company->getId()) {
-            throw new NotFoundHttpException("Compania parinte este invalida!");
+            throw new NotFoundHttpException("Invalid parent company");
         }
         $company->setName($dto->name);
         $company->setCui($dto->cui);
@@ -66,7 +66,7 @@ class CompanyService
         $company = $this->manager->getRepository(Company::class)->find($id);
 
         if ($company === null) {
-            throw new NotFoundHttpException("Compania nu a fost gasita!");
+            throw new NotFoundHttpException("Company not found");
         }
 
         return $this->mapper->map($company, OutputCompanyDTO::class);
@@ -76,7 +76,7 @@ class CompanyService
     {
         $company = $this->manager->getRepository(Company::class)->find($id);
         if ($company === null) {
-            throw new NotFoundHttpException("Compania nu a fost gasita!");
+            throw new NotFoundHttpException("Company not found");
         }
         $this->manager->remove($company);
         $this->manager->flush();
@@ -87,7 +87,7 @@ class CompanyService
     {
         $company = $this->manager->getRepository(Company::class)->find($id);
         if ($company === null) {
-            throw new NotFoundHttpException("Compania nu a fost gasita!");
+            throw new NotFoundHttpException("Company not found");
         }
         $workPoints = [];
         foreach ($company->getWorkPoints() as $item) {

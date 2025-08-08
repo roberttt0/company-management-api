@@ -14,16 +14,28 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        other:
+            pattern: ^/api/doc
+            security: false
+        other2:
+            pattern: ^/api/login
+            security: false
+        other3:
+            pattern: ^/api/register
+            security: false
         main:
+            pattern: ^/api/*
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\ApiTokenAuthenticator
+            security: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
+
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
