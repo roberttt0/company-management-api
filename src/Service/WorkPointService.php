@@ -59,7 +59,7 @@ class WorkPointService
     {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
         if ($workPoint === null) {
-            throw new NotFoundHttpException("Punctul de lucru nu exista!");
+            throw new NotFoundHttpException("Work point not found");
         }
         $workPoint = $this->mapper->map($workPoint, OutputWorkPointDTO::class);
         return $workPoint;
@@ -69,7 +69,7 @@ class WorkPointService
     {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
         if ($workPoint === null) {
-            throw new NotFoundHttpException("Work point does not exist!");
+            throw new NotFoundHttpException("Work point not found");
         }
         $this->manager->remove($workPoint);
         $this->manager->flush();
@@ -81,7 +81,7 @@ class WorkPointService
     {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
         if ($workPoint === null) {
-            throw new NotFoundHttpException("Punctul de lucru nu exista!");
+            throw new NotFoundHttpException("Work point not found");
         }
         return $this->mapper->mapMultiple($workPoint->getDepartments(), OutputDepartmentDTO::class);
     }

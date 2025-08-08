@@ -59,8 +59,8 @@ class EmployeeRepository extends ServiceEntityRepository
             ->join('d.department', 'di')
             ->join('d.workPoint', 'w')
             ->join('w.company', 'c')
-            ->where('lower(e.firstName) = :firstName')
-            ->setParameter('firstName', $firstName)
+            ->where('lower(e.firstName) like :firstName')
+            ->setParameter('firstName','%'. strtolower($firstName) . '%')
             ->getQuery()
             ->getResult();
     }
@@ -75,8 +75,8 @@ class EmployeeRepository extends ServiceEntityRepository
             ->join('d.department', 'di')
             ->join('d.workPoint', 'w')
             ->join('w.company', 'c')
-            ->where('lower(ji.name) = :jobName')
-            ->setParameter('jobName', $jobName)
+            ->where('lower(ji.name) like :jobName')
+            ->setParameter('jobName', '%' . strtolower($jobName) . '%')
             ->getQuery()
             ->getResult();
     }

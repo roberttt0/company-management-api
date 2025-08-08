@@ -46,7 +46,7 @@ class DepartmentInfoService
     {
         $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($id);
         if ($departmentInfo === null) {
-            throw new NotFoundHttpException("Departamentul nu exista!");
+            throw new NotFoundHttpException("Department not found");
         }
         return $this->mapper->mapMultiple($departmentInfo->getDepartmentsList(), OutputDepartmentDTO::class);
     }
@@ -55,7 +55,7 @@ class DepartmentInfoService
     {
         $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($id);
         if ($departmentInfo === null) {
-            throw new NotFoundHttpException("Departamentul nu exista!");
+            throw new NotFoundHttpException("Department not found");
         }
         $departmentInfo->setName($dto->name);
         $this->manager->persist($departmentInfo);
@@ -67,7 +67,7 @@ class DepartmentInfoService
     {
         $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($id);
         if ($departmentInfo === null) {
-            throw new NotFoundHttpException("Departamentul nu exista!");
+            throw new NotFoundHttpException("Department not found");
         }
         $this->manager->remove($departmentInfo);
         $this->manager->flush();

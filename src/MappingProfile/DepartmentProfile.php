@@ -36,14 +36,14 @@ class DepartmentProfile implements AutoMapperConfiguratorInterface
             ->forMember('department', function (DepartmentDTO $dto) {
                 $departmentInfo = $this->manager->getRepository(DepartmentInfo::class)->find($dto->department);
                 if ($departmentInfo == null) {
-                    throw new NotFoundHttpException("Departamentul nu exista");
+                    throw new NotFoundHttpException("Department not found");
                 }
                 return $departmentInfo;
             })
             ->forMember('workPoint', function (DepartmentDTO $dto) {
                 $workPoint = $this->manager->getRepository(WorkPoint::class)->find($dto->workPoint);
                 if ($workPoint == null) {
-                    throw new NotFoundHttpException("Punctul de lucru nu exista");
+                    throw new NotFoundHttpException("Work point not found");
                 }
                 return $workPoint;
             });
