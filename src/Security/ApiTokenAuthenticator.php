@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 class ApiTokenAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
-        private ApiTokenRepository $apiTokenRepository
+        private readonly ApiTokenRepository $apiTokenRepository
     )
     {
     }
