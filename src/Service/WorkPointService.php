@@ -41,6 +41,7 @@ class WorkPointService
     {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
         $dto = $this->mapper->map($dto, WorkPoint::class);
+        $workPoint->setName($dto->getName());
         $workPoint->setAddress($dto->getAddress());
         $workPoint->setCounty($dto->getCounty());
         $workPoint->setType($dto->getType());

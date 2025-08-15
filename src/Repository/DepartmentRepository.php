@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Company;
 use App\Entity\Department;
+use App\Entity\DepartmentInfo;
 use App\Entity\Employee;
 use App\Entity\Job;
+use App\Entity\WorkPoint;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -44,7 +47,8 @@ class DepartmentRepository extends ServiceEntityRepository
     //    }
 
     // Examples of query builder
-    public function findJobByDepartmentId(int $departmentId) : array {
+    public function findJobByDepartmentId(int $departmentId): array
+    {
         return $this->createQueryBuilder('d')
             ->innerJoin('d.jobs', 'j')
             ->andWhere('d.id = :departmentId')
@@ -53,7 +57,8 @@ class DepartmentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findTest(int $departmentId) : array {
+    public function findTest(int $departmentId): array
+    {
         return $this->getEntityManager()->createQueryBuilder()
             ->select('j.name', 'j.id', 'j.department')
             ->addSelect('t')
@@ -62,13 +67,27 @@ class DepartmentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findEmployeesByDepartmentId(int $departmentId) : array {
+    public function findEmployeesByDepartmentId(int $departmentId): array
+    {
         return $this->getEntityManager()->createQueryBuilder()
             ->select('e')
             ->from(Employee::class, 'e')
             ->join('e.department', 'd')
             ->where('d.id = :departmentId')
             ->setParameter('departmentId', $departmentId)
+            ->getQuery()
+            ->getResult();
+    }
+//}
+
+    public function showDepartmentNameAndCompany() : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select ('d.id', 'di.name','w.name as workPoint', 'c.name as company', 'd.status', 'd.phoneNumber', 'd.email', 'd.createdAt', 'd.updatedAt')
+            ->from(Department::class, 'd')
+            ->join (DepartmentInfo::class, 'di', 'WITH', 'd.department = di.id')
+            ->join(WorkPoint::class, 'w', 'WITH', 'd.workPoint = w.id')
+            ->join(Company::class, 'c', 'WITH', 'w.company = c.id')
+            ->orderBy('d.id', 'ASC')
             ->getQuery()
             ->getResult();
     }

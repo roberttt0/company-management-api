@@ -6,6 +6,7 @@ class OutputWorkPointDTO
 {
     public function __construct(
         public int    $id,
+        public string $name,
         public string $address,
         public string $county,
         public string $type,

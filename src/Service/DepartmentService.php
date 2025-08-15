@@ -68,4 +68,8 @@ class DepartmentService
 
     }
 
+    public function showDepartmentNameAndCompany() : array {
+        return $this->repository->showDepartmentNameAndCompany();
+    }
+
 }

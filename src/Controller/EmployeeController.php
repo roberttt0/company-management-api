@@ -16,11 +16,19 @@ final class EmployeeController extends AbstractController
     public function __construct(
         private EmployeeService $service
     ) {}
+//    #[Route('/api/employees', name: 'get_employees', methods: ['GET'])]
+//    #[OA\Response(response: 200, description: 'Show all employees')]
+//    public function getEmployees(): Response
+//    {
+//        $employees = $this->service->getEmployees();
+//        return $this->json($employees);
+//    }
+
     #[Route('/api/employees', name: 'get_employees', methods: ['GET'])]
     #[OA\Response(response: 200, description: 'Show all employees')]
     public function getEmployees(): Response
     {
-        $employees = $this->service->getEmployees();
+        $employees = $this->service->getEmployeeInfo();
         return $this->json($employees);
     }
 

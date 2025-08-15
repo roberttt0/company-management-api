@@ -20,6 +20,9 @@ class WorkPointProfile implements AutoMapperConfiguratorInterface
     public function configure(AutoMapperConfigInterface $config): void
     {
         $config->registerMapping(WorkPointDTO::class, WorkPoint::class)
+            ->forMember('name', function (WorkPointDTO $dto) {
+                return $dto->name;
+            })
             ->forMember('address', function (WorkPointDTO $dto) {
                 return $dto->address;
             })
@@ -49,6 +52,9 @@ class WorkPointProfile implements AutoMapperConfiguratorInterface
         $config->registerMapping(WorkPoint::class, OutputWorkPointDTO::class)
             ->forMember('id', function (WorkPoint $workPoint) {
                 return $workPoint->getId();
+            })
+            ->forMember('name', function (WorkPoint $workPoint) {
+                return $workPoint->getName();
             })
             ->forMember('address', function (WorkPoint $workPoint) {
                 return $workPoint->getAddress();

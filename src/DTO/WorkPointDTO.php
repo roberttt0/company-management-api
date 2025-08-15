@@ -8,6 +8,8 @@ class WorkPointDTO
 {
     public function __construct(
         #[Assert\NotBlank]
+        public string $name,
+        #[Assert\NotBlank]
         public string $address,
         #[Assert\NotBlank]
         public string $county,
