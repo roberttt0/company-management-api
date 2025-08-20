@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Company;
 use App\Entity\Employee;
 use App\Entity\WorkPoint;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -51,6 +52,16 @@ class WorkPointRepository extends ServiceEntityRepository
             ->join('d.workPoint', 'w')
             ->where('w.id = :workPointId')
             ->setParameter('workPointId', $workPointId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getWorkPoints() : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('w.id', 'w.name', 'w.address', 'w.county', 'w.type', 'w.phoneNumber', 'w.programStart', 'w.programEnd', 'c.name as company', 'w.createdAt', 'w.updatedAt')
+            ->from (WorkPoint::class, 'w')
+            ->join(Company::class, 'c', 'WITH', 'w.company = c.id')
+            ->orderBy('w.id', 'ASC')
             ->getQuery()
             ->getResult();
     }

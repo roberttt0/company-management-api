@@ -24,9 +24,10 @@ class WorkPointService
 
     public function showWorkPoints(): array
     {
-        $points = $this->manager->getRepository(WorkPoint::class)->findAll();
-        $points = $this->mapper->mapMultiple($points, OutputWorkPointDTO::class);
-        return $points;
+//        $points = $this->manager->getRepository(WorkPoint::class)->findAll();
+//        $points = $this->mapper->mapMultiple($points, OutputWorkPointDTO::class);
+//        return $points;
+        return $this->repository->getWorkPoints();
     }
 
     public function addWorkPoint(WorkPointDTO $dto): OutputWorkPointDTO
