@@ -89,7 +89,6 @@ class WorkPointService
     }
 
     public function findEmployeesByWorkPointId(int $id) : array {
-        $employees = $this->repository->findEmployeesByWorkPointId($id);
-        return $this->mapper->mapMultiple($employees, OutputEmployeeDTO::class);
+        return $this->repository->getEmployeesByWorkPoint($id);
     }
 }
