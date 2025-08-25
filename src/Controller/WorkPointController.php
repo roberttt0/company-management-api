@@ -39,7 +39,7 @@ final class WorkPointController extends AbstractController
     }
 
     #[Route('/api/work-points/{id}', name: 'show_work_point', requirements: ['id' => '\d+'] ,methods: ['GET'])]
-    #[OA\Response(response: 200, description: 'Show al work point')]
+    #[OA\Response(response: 200, description: 'Show a work point')]
     public function showWorkPoint(int $id) : Response {
         $workPoint = $this->workPointService->showWorkPoint($id);
         return $this->json($workPoint);

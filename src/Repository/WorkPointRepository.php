@@ -74,7 +74,7 @@ class WorkPointRepository extends ServiceEntityRepository
 
     public function getEmployeesByWorkPoint(int $id) : array {
         return $this->getEntityManager()->createQueryBuilder()
-            ->select('e.firstName','e.lastName','e.phoneNumber','e.email', 'ji.name as job', 'di.name as department', 'w.name as workPoint')
+            ->select('e.id', 'e.firstName', 'e.lastName','e.phoneNumber','e.email', 'ji.name as job', 'di.name as department', 'w.name as workPoint', 'w.id as workPointId')
             ->from(Employee::class, 'e')
             ->join(Job::class, 'j', 'WITH', 'e.job = j.id')
             ->join(JobInformation::class, 'ji', 'WITH', 'j.jobType = ji.id')
@@ -83,6 +83,12 @@ class WorkPointRepository extends ServiceEntityRepository
             ->join(WorkPoint::class, 'w', 'WITH', 'd.workPoint = w.id')
             ->where('w.id = :id')
             ->setParameter('id', $id)
+            ->addSelect("CASE WHEN ji.name = 'Manager' THEN 0 ELSE 1 END AS HIDDEN job_priority")
+            ->orderBy('di.name', 'ASC')
+            ->addOrderBy('job_priority', 'ASC')
+            ->addOrderBy('ji.name', 'ASC')
+            ->addOrderBy('e.lastName', 'ASC')
+            ->addOrderBy('e.firstName', 'ASC')
             ->getQuery()
             ->getResult();
     }
