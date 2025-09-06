@@ -2,7 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Company;
+use App\Entity\Department;
+use App\Entity\DepartmentInfo;
 use App\Entity\Employee;
+use App\Entity\Job;
+use App\Entity\JobInformation;
+use App\Entity\WorkPoint;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -77,6 +83,22 @@ class EmployeeRepository extends ServiceEntityRepository
             ->join('w.company', 'c')
             ->where('lower(ji.name) like :jobName')
             ->setParameter('jobName', '%' . strtolower($jobName) . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getEmployeeInfo() : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('e.id', 'e.firstName', 'e.lastName', 'e.email', 'e.phoneNumber', 'e.hireDate', 'ji.name as job', 'di.name as department', 'w.name as workPoint','c.name as Company', 'e.createdAt', 'e.updatedAt')
+            ->addSelect('w.id as workPointId', 'c.id as companyId', 'd.id as departmentId', 'di.id as departmentInfoId', 'j.id as jobId', 'ji.id as jobInformationId')
+            ->from(Employee::class, 'e')
+            ->join(Job::class, 'j', 'WITH', 'e.job = j.id')
+            ->join(JobInformation::class, 'ji', 'WITH', 'ji.id = j.jobType')
+            ->join(Department::class, 'd', 'WITH', 'd.id = j.department')
+            ->join(DepartmentInfo::class, 'di', 'WITH', 'di.id = d.department')
+            ->join(WorkPoint::class, 'w', 'WITH', 'w.id = d.workPoint')
+            ->join(Company::class, 'c', 'WITH', 'c.id = w.company')
+            ->orderBy('e.id')
             ->getQuery()
             ->getResult();
     }

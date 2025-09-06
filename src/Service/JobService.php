@@ -6,6 +6,7 @@ use App\DTO\JobDTO;
 use App\DTO\OutputEmployeeDTO;
 use App\DTO\OutputJobDTO;
 use App\Entity\Job;
+use App\Repository\JobRepository;
 use AutoMapperPlus\AutoMapperInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,7 +15,8 @@ class JobService
 {
     public function __construct(
         private EntityManagerInterface $manager,
-        private AutoMapperInterface    $mapper
+        private AutoMapperInterface    $mapper,
+        private JobRepository         $repository
     )
     {
     }
@@ -69,5 +71,9 @@ class JobService
         }
 //        return $job->getEmployees();
         return $this->mapper->mapMultiple($job->getEmployees(), OutputEmployeeDTO::class);
+    }
+
+    public function getAllJobs() : array {
+        return $this->repository->getJobs();
     }
 }

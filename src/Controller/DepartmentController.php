@@ -20,7 +20,14 @@ final class DepartmentController extends AbstractController
     #[Route('/api/departments', name: 'show_departments', methods: ['GET'])]
     #[OA\Response(response: 200, description: 'Show departments')]
     public function showDepartments() : Response {
-        $department = $this->departmentService->showDepartments();
+        $departments = $this->departmentService->showDepartmentNameAndCompany();
+        return $this->json($departments);
+    }
+
+    #[Route('/api/departments/{id}', name: 'show_department', methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Show a department')]
+    public function showDepartment(int $id) : Response {
+        $department = $this->departmentService->getDepartment($id);
         return $this->json($department);
     }
 

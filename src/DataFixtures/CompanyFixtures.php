@@ -11,14 +11,28 @@ class CompanyFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 5; $i++) {
+        // O listă de nume reale de companii
+        $companyNames = [
+            'Google',
+            'Apple',
+            'Microsoft',
+            'Amazon',
+            'Tesla',
+        ];
+
+        // Se iterează prin lista de nume
+        for ($i = 0; $i < count($companyNames); $i++) {
             $company = new Company();
-            $company->setName("Companie $i");
-            $company->setCui("RO" . rand(1000000, 9999999));
-            $company->setYearCreated(rand(1990, 2020));
+            // Setează numele companiei din array
+            $company->setName($companyNames[$i]);
+            // Setează un CUI aleatoriu, conform formatului românesc
+            $company->setCui("RO" . rand(10000000, 99999999));
+            // Setează un an de înființare aleatoriu
+            $company->setYearCreated(rand(1990, 2024));
 
             $manager->persist($company);
-            $this->addReference("company_$i", $company);
+            // Salvează o referință la obiect
+            $this->addReference("company_" . ($i + 1), $company);
         }
 
         $manager->flush();

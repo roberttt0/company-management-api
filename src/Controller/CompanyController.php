@@ -58,6 +58,13 @@ final class CompanyController extends AbstractController
         return $this->json($workPoints);
     }
 
+    #[Route('/api/companies/departments', name: 'show_companies_departments', methods: ['GET']) ]
+    #[OA\Response(response: 200, description: 'Show all departments of all companies')]
+    public function getDepartmentsOfCompany() : Response {
+        $companies = $this->companyService->getDepartmentsOfCompany();
+        return $this->json($companies);
+    }
+
 
 
 }

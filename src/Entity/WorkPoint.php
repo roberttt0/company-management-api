@@ -20,6 +20,9 @@ class WorkPoint
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
@@ -48,6 +51,8 @@ class WorkPoint
      */
     #[ORM\OneToMany(targetEntity: Department::class, mappedBy: 'workPoint', orphanRemoval: true)]
     private Collection $departments;
+
+
 
     public function __construct()
     {
@@ -168,6 +173,18 @@ class WorkPoint
                 $department->setWorkPoint(null);
             }
         }
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
         return $this;
     }
 }

@@ -65,4 +65,8 @@ class EmployeeService
         $employees = $this->repository->findByJobId($id);
         return $this->mapper->mapMultiple($employees, OutputEmployeeDTO::class);
     }
+
+    public function getEmployeeInfo() : array {
+        return $this->repository->getEmployeeInfo();
+    }
 }

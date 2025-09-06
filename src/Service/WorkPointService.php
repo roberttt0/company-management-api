@@ -24,9 +24,10 @@ class WorkPointService
 
     public function showWorkPoints(): array
     {
-        $points = $this->manager->getRepository(WorkPoint::class)->findAll();
-        $points = $this->mapper->mapMultiple($points, OutputWorkPointDTO::class);
-        return $points;
+//        $points = $this->manager->getRepository(WorkPoint::class)->findAll();
+//        $points = $this->mapper->mapMultiple($points, OutputWorkPointDTO::class);
+//        return $points;
+        return $this->repository->getWorkPoints();
     }
 
     public function addWorkPoint(WorkPointDTO $dto): OutputWorkPointDTO
@@ -41,6 +42,7 @@ class WorkPointService
     {
         $workPoint = $this->manager->getRepository(WorkPoint::class)->find($id);
         $dto = $this->mapper->map($dto, WorkPoint::class);
+        $workPoint->setName($dto->getName());
         $workPoint->setAddress($dto->getAddress());
         $workPoint->setCounty($dto->getCounty());
         $workPoint->setType($dto->getType());
@@ -87,7 +89,14 @@ class WorkPointService
     }
 
     public function findEmployeesByWorkPointId(int $id) : array {
-        $employees = $this->repository->findEmployeesByWorkPointId($id);
-        return $this->mapper->mapMultiple($employees, OutputEmployeeDTO::class);
+        return $this->repository->getEmployeesByWorkPoint($id);
+    }
+
+    public function getDepartmentsOfWorkPoints() : array {
+        return $this->repository->getDepartmentsOfWorkPoints();
+    }
+
+    public function getCounties() : array {
+        return $this->repository->getCounties();
     }
 }
