@@ -25,6 +25,11 @@ class DepartmentService
         return $this->mapper->mapMultiple($departments, OutputDepartmentDTO::class);
     }
 
+    public function getDepartment(int $id) : OutputDepartmentDTO {
+        $dpt = $this->manager->getRepository(Department::class)->find($id);
+        return $this->mapper->map($dpt, OutputDepartmentDTO::class);
+    }
+
     public function addDepartment(DepartmentDTO $dto) : OutputDepartmentDTO {
         $department = $this->mapper->map($dto, Department::class);
         $this->manager->persist($department);

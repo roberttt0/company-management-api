@@ -66,4 +66,19 @@ final class WorkPointController extends AbstractController
         return $this->json($employees);
     }
 
+    #[Route('/api/work-points/departments', name: 'show_work_points_departments', methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Show all work points departments')]
+    public function getDepartmentsOfWorkPoints(): Response
+    {
+        $workPoints = $this->workPointService->getDepartmentsOfWorkPoints();
+        return $this->json($workPoints);
+    }
+
+    #[Route('/api/work-points/counties', name: 'show_work_points_counties', methods: ['GET'])]
+    #[OA\Response(response: 200, description: 'Show all counties')]
+    public function getCounties(): Response
+    {
+        $counties = $this->workPointService->getCounties();
+        return $this->json($counties);
+    }
 }

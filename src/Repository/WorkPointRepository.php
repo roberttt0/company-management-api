@@ -65,6 +65,7 @@ class WorkPointRepository extends ServiceEntityRepository
     {
         return $this->getEntityManager()->createQueryBuilder()
             ->select('w.id', 'w.name', 'w.address', 'w.county', 'w.type', 'w.phoneNumber', 'w.programStart', 'w.programEnd', 'c.name as company', 'w.createdAt', 'w.updatedAt')
+            ->addSelect('c.id as companyId')
             ->from(WorkPoint::class, 'w')
             ->join(Company::class, 'c', 'WITH', 'w.company = c.id')
             ->orderBy('w.id', 'ASC')
@@ -89,6 +90,26 @@ class WorkPointRepository extends ServiceEntityRepository
             ->addOrderBy('ji.name', 'ASC')
             ->addOrderBy('e.lastName', 'ASC')
             ->addOrderBy('e.firstName', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getDepartmentsOfWorkPoints() : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('w.id','w.name', 'di.id as departmentNameId', 'd.id as departmentId')
+            ->from(WorkPoint::class, 'w')
+            ->join(Department::class, 'd', 'WITH', 'd.workPoint = w.id')
+            ->join(DepartmentInfo::class, 'di', 'WITH', 'd.department = di.id')
+            ->orderBy('w.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getCounties() : array {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('DISTINCT wp.county as name')
+            ->from(WorkPoint::class, 'wp')
+            ->orderBy('wp.county', 'ASC')
             ->getQuery()
             ->getResult();
     }

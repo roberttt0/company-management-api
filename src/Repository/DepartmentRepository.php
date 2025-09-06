@@ -78,13 +78,16 @@ class DepartmentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
 //}
 
-    public function showDepartmentNameAndCompany() : array {
+    public function showDepartmentNameAndCompany(): array
+    {
         return $this->getEntityManager()->createQueryBuilder()
-            ->select ('d.id', 'di.name','w.name as workPoint', 'c.name as company', 'd.status', 'd.phoneNumber', 'd.email', 'd.createdAt', 'd.updatedAt')
+            ->select('d.id', 'di.name', 'w.name as workPoint', 'c.name as company', 'd.status', 'd.phoneNumber', 'd.email', 'd.createdAt', 'd.updatedAt')
+            ->addSelect('c.id as companyId', 'w.id as workPointId', 'di.id as departmentNameId')
             ->from(Department::class, 'd')
-            ->join (DepartmentInfo::class, 'di', 'WITH', 'd.department = di.id')
+            ->join(DepartmentInfo::class, 'di', 'WITH', 'd.department = di.id')
             ->join(WorkPoint::class, 'w', 'WITH', 'd.workPoint = w.id')
             ->join(Company::class, 'c', 'WITH', 'w.company = c.id')
             ->orderBy('d.id', 'ASC')

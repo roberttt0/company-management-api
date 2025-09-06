@@ -91,4 +91,12 @@ class WorkPointService
     public function findEmployeesByWorkPointId(int $id) : array {
         return $this->repository->getEmployeesByWorkPoint($id);
     }
+
+    public function getDepartmentsOfWorkPoints() : array {
+        return $this->repository->getDepartmentsOfWorkPoints();
+    }
+
+    public function getCounties() : array {
+        return $this->repository->getCounties();
+    }
 }

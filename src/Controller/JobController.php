@@ -21,7 +21,7 @@ final class JobController extends AbstractController
     #[OA\Response(response: 200, description: 'Show all jobs')]
     public function showJobs(): Response
     {
-        $jobs = $this->service->showJobs();
+        $jobs = $this->service->getAllJobs();
         return $this->json($jobs);
     }
     #[Route('/api/jobs', name: 'add_job', methods: ['POST'])]

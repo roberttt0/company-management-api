@@ -6,6 +6,7 @@ use App\DTO\CompanyDTO;
 use App\DTO\OutputCompanyDTO;
 use App\DTO\OutputWorkPointDTO;
 use App\Entity\Company;
+use App\Repository\CompanyRepository;
 use AutoMapperPlus\AutoMapperInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,7 +15,8 @@ class CompanyService
 {
     public function __construct(
         private EntityManagerInterface $manager,
-        private AutoMapperInterface    $mapper
+        private AutoMapperInterface    $mapper,
+        private CompanyRepository    $repository
     )
     {
     }
@@ -94,5 +96,9 @@ class CompanyService
             $workPoints[] = $this->mapper->map($item, OutputWorkPointDTO::class);
         }
         return $workPoints;
+    }
+
+    public function getDepartmentsOfCompany() : array {
+        return $this->repository->getDepartmentsOfCompany();
     }
 }
